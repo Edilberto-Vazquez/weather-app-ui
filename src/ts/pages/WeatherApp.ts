@@ -1,27 +1,50 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { globalStyles } from "../styles/global";
 import "../components/HeaderSection";
 import "../components/SideBar";
+import { SideBar } from "../components/SideBar";
+import "../components/AnalysisSection";
 
 @customElement("weather-app")
 export class WeatherApp extends LitElement {
+    @property({ attribute: false, type: Boolean })
+    declare collapseState: boolean;
+
+    constructor() {
+        super();
+        this.collapseState = true;
+    }
+
     static styles = [
         globalStyles,
         css`
             :host {
                 width: 100%;
-                min-height: 100vh;
+                height: 100vh;
                 display: flex;
-                background-color: whitesmoke;
+            }
+            .main-section {
+                width: 100%;
+                height: (100% - 64px);
+                margin-block-start: 64px;
             }
         `,
     ];
 
+    hCollapse(e: CustomEvent): void {
+        this.collapseState = !e.detail.collapse;
+    }
+
     render() {
         return html`
             <header-section title="Análisis del tiempo"></header-section>
-            <side-bar></side-bar>
+            <div class="main-section">
+                <side-bar @collapse=${this.hCollapse}></side-bar>
+                <analysis-section
+                    ?collapse-section="${this.collapseState}"
+                ></analysis-section>
+            </div>
         `;
     }
 }

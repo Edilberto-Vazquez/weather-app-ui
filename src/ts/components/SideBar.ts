@@ -4,12 +4,15 @@ import { globalStyles } from "../styles/global";
 
 @customElement("side-bar")
 export class SideBar extends LitElement {
-    @property({ attribute: true, type: Boolean, reflect: true })
-    declare collapse: boolean;
+    @property({ attribute: "collapse-side-bar", type: Boolean, reflect: true })
+    declare collapseSideBar: boolean;
+
+    @property({ type: Function })
+    declare handleCollapseSideBar: ((e: Event) => void) | null;
 
     constructor() {
         super();
-        this.collapse = false;
+        this.collapseSideBar = false;
     }
 
     static styles = [
@@ -17,14 +20,15 @@ export class SideBar extends LitElement {
         css`
             :host {
                 width: 264px;
-                height: calc(100vh - 64px);
+                height: 100%;
                 padding: 8px;
                 position: fixed;
                 top: 64px;
                 left: 0px;
-                transition: all 0.5s ease;
+                z-index: 1;
                 border-inline-end: 1px solid rgba(0, 0, 0, 0.12);
                 background-color: white;
+                transition: all 0.5s ease;
             }
 
             :host > .collapse-button {
@@ -44,23 +48,29 @@ export class SideBar extends LitElement {
                 transition: all 0.5s ease;
             }
 
-            :host([collapse]) {
+            :host([collapse-side-bar]) {
                 left: -264px;
             }
 
-            :host([collapse]) > .collapse-button {
+            :host([collapse-side-bar]) > .collapse-button {
                 background-image: url("../assets/icons/arrow-right.svg");
             }
         `,
     ];
 
-    collapseSideBar(e: Event) {
-        this.collapse = !this.collapse;
+    dispatchCollapse() {
+        this.collapseSideBar = !this.collapseSideBar;
+        const options = {
+            detail: { collapse: this.collapseSideBar },
+            bubbles: true,
+            composed: true,
+        };
+        this.dispatchEvent(new CustomEvent("collapse", options));
     }
 
     render() {
         return html`
-            <button class="collapse-button" @click=${this.collapseSideBar}></button>
+            <button class="collapse-button" @click=${this.dispatchCollapse}></button>
         `;
     }
 }
