@@ -21,12 +21,13 @@ export class SideBarItem extends LitElement {
             display: grid;
             grid-auto-rows: min-content;
             row-gap: 12px;
-            border-block-end: 1px solid rgba(0, 0, 0, 0.12);
+            border-block-end: 1px solid var(--main-color-primary);
         }
         :host .side-bar-section {
             margin: 0;
             font-size: 1.6rem;
-            text-align: center;
+            text-align: left;
+            color: var(--text-main-color-primary);
         }
     `;
 
@@ -55,7 +56,6 @@ export class SideBar extends LitElement {
         :host {
             width: 264px;
             height: 100%;
-            padding: 8px;
             display: grid;
             grid-auto-rows: min-content;
             row-gap: 16px;

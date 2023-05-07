@@ -17,3 +17,11 @@ html {
     min-height: 100vh;
     background-color: whitesmoke;
 }
+
+:root {
+    --main-color-primary: #25b6e8;
+    --secondary-color-primary: #282557;
+
+    --text-main-color-primary: #25b6e8;
+    --text-secondary-color-primary: #282557;
+}

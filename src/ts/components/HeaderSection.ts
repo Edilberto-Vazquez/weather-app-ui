@@ -28,6 +28,7 @@ export class HeaderSection extends LitElement {
             margin: 0;
             font-size: 2.4rem;
             text-align: center;
+            color: var(--text-main-color-primary);
         }
     `;
 
