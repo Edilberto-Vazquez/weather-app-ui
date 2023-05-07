@@ -12,26 +12,23 @@ export class SideBarItem extends LitElement {
         this.sectionTitle;
     }
 
-    static styles = [
-        globalStyles,
-        css`
-            :host {
-                width: 100%;
-                height: auto;
-                padding: 8px;
-                padding-inline: 8px;
-                padding-block: 12px;
-                display: grid;
-                grid-auto-rows: min-content;
-                row-gap: 12px;
-                border-block-end: 1px solid rgba(0, 0, 0, 0.12);
-            }
-            :host > .side-bar-section {
-                font-size: 1.6rem;
-                text-align: center;
-            }
-        `,
-    ];
+    static styles = css`
+        :host {
+            width: 100%;
+            height: auto;
+            padding: 8px;
+            padding-inline: 8px;
+            padding-block: 12px;
+            display: grid;
+            grid-auto-rows: min-content;
+            row-gap: 12px;
+            border-block-end: 1px solid rgba(0, 0, 0, 0.12);
+        }
+        :host > .side-bar-section {
+            font-size: 1.6rem;
+            text-align: center;
+        }
+    `;
 
     render() {
         return html`
@@ -54,51 +51,48 @@ export class SideBar extends LitElement {
         this.collapseSideBar = false;
     }
 
-    static styles = [
-        globalStyles,
-        css`
-            :host {
-                width: 264px;
-                height: 100%;
-                padding: 8px;
-                display: grid;
-                grid-auto-rows: min-content;
-                row-gap: 16px;
-                position: fixed;
-                top: 64px;
-                left: 0px;
-                z-index: 1;
-                border-inline-end: 1px solid rgba(0, 0, 0, 0.12);
-                background-color: white;
-                transition: all 0.5s ease;
-            }
+    static styles = css`
+        :host {
+            width: 264px;
+            height: 100%;
+            padding: 8px;
+            display: grid;
+            grid-auto-rows: min-content;
+            row-gap: 16px;
+            position: fixed;
+            top: 64px;
+            left: 0px;
+            z-index: 1;
+            border-inline-end: 1px solid rgba(0, 0, 0, 0.12);
+            background-color: white;
+            transition: all 0.5s ease;
+        }
 
-            :host > .collapse-button {
-                width: 40px;
-                height: 56px;
-                position: absolute;
-                top: calc(50% - 38px);
-                right: -40px;
-                border: none;
-                border-radius: 0px 16px 16px 0px;
-                box-shadow: rgba(196, 202, 207, 0.5) 4px 0px 4px;
-                background-color: white;
-                background-image: url("../assets/icons/arrow-left.svg");
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: auto;
-                transition: all 0.5s ease;
-            }
+        :host > .collapse-button {
+            width: 40px;
+            height: 56px;
+            position: absolute;
+            top: calc(50% - 38px);
+            right: -40px;
+            border: none;
+            border-radius: 0px 16px 16px 0px;
+            box-shadow: rgba(196, 202, 207, 0.5) 4px 0px 4px;
+            background-color: white;
+            background-image: url("../assets/icons/arrow-left.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: auto;
+            transition: all 0.5s ease;
+        }
 
-            :host([collapse-side-bar]) {
-                left: -264px;
-            }
+        :host([collapse-side-bar]) {
+            left: -264px;
+        }
 
-            :host([collapse-side-bar]) > .collapse-button {
-                background-image: url("../assets/icons/arrow-right.svg");
-            }
-        `,
-    ];
+        :host([collapse-side-bar]) > .collapse-button {
+            background-image: url("../assets/icons/arrow-right.svg");
+        }
+    `;
 
     dispatchCollapse() {
         this.collapseSideBar = !this.collapseSideBar;
