@@ -1,1 +1,1 @@
-export { MyElement } from "./components/MyElement";
+export { WeatherApp } from "./pages/WeatherApp";
