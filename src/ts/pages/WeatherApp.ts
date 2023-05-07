@@ -20,7 +20,7 @@ export class WeatherApp extends LitElement {
 
     render() {
         return html`
-            <header-section></header-section>
+            <header-section title="Análisis del tiempo"></header-section>
             <side-bar></side-bar>
         `;
     }

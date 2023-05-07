@@ -1,9 +1,17 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { globalStyles } from "../styles/global";
 
 @customElement("header-section")
 export class HeaderSection extends LitElement {
+    @property({ attribute: true, type: String })
+    declare title: string;
+
+    constructor() {
+        super();
+        this.title = "";
+    }
+
     static styles = [
         globalStyles,
         css`
@@ -19,7 +27,7 @@ export class HeaderSection extends LitElement {
                 border-block-end: 1px solid rgba(0, 0, 0, 0.12);
                 background-color: white;
             }
-            .title {
+            :host > title {
                 font-size: 2.4rem;
                 text-align: center;
             }
@@ -27,6 +35,6 @@ export class HeaderSection extends LitElement {
     ];
 
     render() {
-        return html` <h1 class="header__title">Análisis del tiempo</h1> `;
+        return html` <h1 class="title">${this.title}</h1> `;
     }
 }
