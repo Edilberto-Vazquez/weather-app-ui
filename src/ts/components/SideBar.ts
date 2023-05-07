@@ -1,6 +1,5 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { globalStyles } from "../styles/global";
 
 @customElement("side-bar-item")
 export class SideBarItem extends LitElement {
@@ -24,7 +23,8 @@ export class SideBarItem extends LitElement {
             row-gap: 12px;
             border-block-end: 1px solid rgba(0, 0, 0, 0.12);
         }
-        :host > .side-bar-section {
+        :host .side-bar-section {
+            margin: 0;
             font-size: 1.6rem;
             text-align: center;
         }

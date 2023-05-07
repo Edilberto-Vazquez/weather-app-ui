@@ -1,6 +1,5 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { globalStyles } from "../styles/global";
 
 type Location = {
     title: string;
@@ -26,7 +25,7 @@ export class SelectLocation extends LitElement {
             width: 100%;
             height: 24px;
         }
-        :host > .select-location {
+        :host .select-location {
             width: 100%;
             height: 100%;
             border: none;

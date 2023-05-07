@@ -7,15 +7,12 @@
 }
 
 html {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     font-size: 62.5%;
     font-family: "Montserrat", sans-serif;
     scroll-behavior: smooth;
 }
 
-body {
+.body-styles {
     width: 100%;
     min-height: 100vh;
     background-color: whitesmoke;

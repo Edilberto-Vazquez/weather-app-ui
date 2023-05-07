@@ -1,6 +1,5 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { globalStyles } from "../styles/global";
 
 @customElement("header-section")
 export class HeaderSection extends LitElement {
@@ -25,7 +24,8 @@ export class HeaderSection extends LitElement {
             border-block-end: 1px solid rgba(0, 0, 0, 0.12);
             background-color: white;
         }
-        :host > title {
+        :host .title {
+            margin: 0;
             font-size: 2.4rem;
             text-align: center;
         }

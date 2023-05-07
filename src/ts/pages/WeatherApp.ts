@@ -16,18 +16,23 @@ export class WeatherApp extends LitElement {
         this.collapseState = true;
     }
 
-    static styles = css`
-        :host {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-        }
-        .main-section {
-            width: 100%;
-            height: (100% - 64px);
-            margin-block-start: 64px;
-        }
-    `;
+    static styles = [
+        globalStyles,
+        css`
+            :host {
+                width: 100%;
+                height: 100vh;
+                display: flex;
+            }
+            .main-section {
+                width: 100%;
+                height: (100% - 64px);
+                margin-block-start: 64px;
+                box-sizing: border-box;
+                padding: 0px;
+            }
+        `,
+    ];
 
     hCollapse(e: CustomEvent): void {
         this.collapseState = !e.detail.collapse;
