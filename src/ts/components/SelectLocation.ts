@@ -9,19 +9,6 @@ type Location = {
 
 @customElement("select-location")
 export class SelectLocation extends LitElement {
-    static styles = [
-        globalStyles,
-        css`
-            .select-location {
-                width: 100%;
-                height: 24px;
-                border: none;
-                border-radius: 4px;
-                font-size: 1.6rem;
-            }
-        `,
-    ];
-
     @property({ attribute: true, type: Array<Location>, reflect: true })
     declare options: Location[];
 
@@ -33,6 +20,23 @@ export class SelectLocation extends LitElement {
         this.options = [];
         this.selected = { value: "default", title: "Selecciona una locación" };
     }
+
+    static styles = [
+        globalStyles,
+        css`
+            :host {
+                width: 100%;
+                height: 24px;
+            }
+            :host > .select-location {
+                width: 100%;
+                height: 100%;
+                border: none;
+                border-radius: 4px;
+                font-size: 1.6rem;
+            }
+        `,
+    ];
 
     setLocations(options: Location[], selected?: string) {
         this.options = options;
