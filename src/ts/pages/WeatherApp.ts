@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { globalStyles } from "../styles/global";
 import "../components/HeaderSection";
+import "../components/SideBar";
 
 @customElement("weather-app")
 export class WeatherApp extends LitElement {
@@ -18,6 +19,9 @@ export class WeatherApp extends LitElement {
     ];
 
     render() {
-        return html` <header-section></header-section> `;
+        return html`
+            <header-section></header-section>
+            <side-bar></side-bar>
+        `;
     }
 }
