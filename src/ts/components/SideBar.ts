@@ -26,6 +26,7 @@ export class SideBar extends LitElement {
                 border-inline-end: 1px solid rgba(0, 0, 0, 0.12);
                 background-color: white;
             }
+
             :host > .collapse-button {
                 width: 40px;
                 height: 56px;
@@ -36,9 +37,19 @@ export class SideBar extends LitElement {
                 border-radius: 0px 16px 16px 0px;
                 box-shadow: rgba(196, 202, 207, 0.5) 4px 0px 4px;
                 background-color: white;
+                background-image: url("../assets/icons/arrow-left.svg");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: auto;
+                transition: all 0.5s ease;
             }
+
             :host([collapse]) {
                 left: -264px;
+            }
+
+            :host([collapse]) > .collapse-button {
+                background-image: url("../assets/icons/arrow-right.svg");
             }
         `,
     ];
@@ -49,9 +60,7 @@ export class SideBar extends LitElement {
 
     render() {
         return html`
-            <button class="collapse-button" @click=${this.collapseSideBar}>
-                ${this.collapse ? ">" : "<"}
-            </button>
+            <button class="collapse-button" @click=${this.collapseSideBar}></button>
         `;
     }
 }
