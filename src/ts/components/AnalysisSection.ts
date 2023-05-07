@@ -29,9 +29,15 @@ export class AnalysisSection extends LitElement {
                 background-color: whitesmoke;
             }
 
-            :host([collapse-section]) {
-                width: calc(100% - 264px);
-                left: 264px;
+            @media (min-width: 900px) {
+                :host {
+                    width: 100%;
+                    left: 0px;
+                }
+                :host([collapse-section]) {
+                    width: calc(100% - 264px);
+                    left: 264px;
+                }
             }
         `,
     ];
