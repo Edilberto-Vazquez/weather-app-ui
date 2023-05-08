@@ -4,42 +4,64 @@ import { Field } from "../types/columns";
 
 @customElement("select-fields")
 export class SelectFields extends LitElement {
+    @property({ attribute: "fields-title", type: String })
+    declare fieldsTitle: string;
+
     @property({ attribute: true, type: Array<Field> })
     declare fields: Field[];
 
-    @property({ attribute: true, type: String })
-    declare title: string;
-
     constructor() {
         super();
-        this.fields = [{ value: "temp", title: "Temperatura" }];
-        this.title = "Estación meteorológica";
+        this.fieldsTitle = "";
+        this.fields = [
+            { value: "temp", title: "Temperatura", selected: false },
+            { value: "rain", title: "Lluvia", selected: false },
+        ];
     }
 
-    dispatchFields(e: Event) {
-        const fieldValue = e.target as HTMLInputElement;
-        const fieldExist = this.fields.find(({ value }) => value === fieldValue.value);
-        if (!fieldExist) {
-            this.fields = [
-                ...this.fields,
-                { value: fieldValue.value, title: fieldValue.textContent! },
-            ];
-        } else {
-            this.fields = this.fields.filter(({ value }) => value !== fieldValue.value);
+    static styles = css`
+        :host {
+            width: 100%;
+            height: auto;
         }
+        :host .title {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+        :host .fields {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            font-size: 1.4rem;
+        }
+    `;
+
+    dispatchFields(e: Event) {
+        const value = e.target as HTMLInputElement;
+
+        this.fields = this.fields.map((field) => {
+            if (value.value === field.value) {
+                return value.checked
+                    ? { ...field, selected: true }
+                    : { ...field, selected: false };
+            }
+            return field;
+        });
+
         const options = {
-            detail: { fields: this.fields },
+            detail: { fields: this.fields.filter((field) => field.selected === true) },
             bubbles: true,
             composed: true,
         };
-        this.dispatchEvent(new CustomEvent("getFields", options));
+
+        this.dispatchEvent(new CustomEvent("getSelected", options));
     }
 
     render() {
         return html`
-            <h5>${this.title}</h5>
-            <ul>
-                ${this.fields.map(({ value, title }) => {
+            <h5 class="title">${this.fieldsTitle}</h5>
+            <ul class="fields">
+                ${this.fields.map(({ value, title, selected }) => {
                     return html`
                         <li>
                             <label>
@@ -47,6 +69,7 @@ export class SelectFields extends LitElement {
                                     type="checkbox"
                                     value=${value}
                                     @change=${this.dispatchFields}
+                                    ?checked=${selected}
                                 />
                                 ${title}
                             </label>

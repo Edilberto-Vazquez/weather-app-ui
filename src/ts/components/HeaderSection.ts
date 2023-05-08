@@ -3,12 +3,12 @@ import { customElement, property } from "lit/decorators.js";
 
 @customElement("header-section")
 export class HeaderSection extends LitElement {
-    @property({ attribute: true, type: String })
-    declare title: string;
+    @property({ attribute: "header-title", type: String })
+    declare headerTitle: string;
 
     constructor() {
         super();
-        this.title = "";
+        this.headerTitle = "";
     }
 
     static styles = css`
@@ -33,6 +33,6 @@ export class HeaderSection extends LitElement {
     `;
 
     render() {
-        return html` <h1 class="title">${this.title}</h1> `;
+        return html` <h1 class="title">${this.headerTitle}</h1> `;
     }
 }

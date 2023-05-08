@@ -1,10 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-type Location = {
-    title: string;
-    value: string;
-};
+import { Location } from "../types/stations";
 
 @customElement("select-location")
 export class SelectLocation extends LitElement {

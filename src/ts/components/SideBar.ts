@@ -23,7 +23,7 @@ export class SideBarItem extends LitElement {
             row-gap: 12px;
             border-block-end: 1px solid var(--main-color-primary);
         }
-        :host .side-bar-section {
+        :host .title {
             margin: 0;
             font-size: 1.6rem;
             text-align: left;
@@ -33,7 +33,7 @@ export class SideBarItem extends LitElement {
 
     render() {
         return html`
-            <h4 class="side-bar-section">${this.sectionTitle}</h4>
+            <h4 class="title">${this.sectionTitle}</h4>
             <slot></slot>
         `;
     }
