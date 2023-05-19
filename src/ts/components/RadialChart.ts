@@ -64,8 +64,8 @@ export class RadialChart extends LitElement {
 
             const response = await fetch(this.seriesUrl);
             const data = await response.json();
-            this.series = Object.values(data.data);
-            this.labels = Object.keys(data.data);
+            this.series = Object.values(data.data).reverse();
+            this.labels = Object.keys(data.data).reverse();
             this.createChart(mainContainer);
         } catch (error) {
             console.error("Error making the request:", error);
