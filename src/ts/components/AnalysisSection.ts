@@ -19,7 +19,7 @@ export class AnalysisSection extends LitElement {
             padding: 24px;
             display: grid;
             align-items: flex-start;
-            grid-template-columns: repeat(auto-fit, minmax(272px, calc(50% - 24px)));
+            grid-template-columns: repeat(auto-fit, minmax(272px, 100%));
             grid-auto-rows: min-content;
             gap: 24px;
             position: fixed;

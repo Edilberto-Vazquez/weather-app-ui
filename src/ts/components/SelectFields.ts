@@ -20,6 +20,9 @@ export class SelectFields extends LitElement {
         :host {
             width: 100%;
             height: auto;
+            display: grid;
+            grid-auto-rows: min-content;
+            row-gap: 8px;
         }
         :host .title {
             font-size: 1.4rem;
@@ -38,9 +41,7 @@ export class SelectFields extends LitElement {
 
         this.fields = this.fields.map((field) => {
             if (value.value === field.value) {
-                return value.checked
-                    ? { ...field, selected: true }
-                    : { ...field, selected: false };
+                field.selected = value.checked ? true : false;
             }
             return field;
         });
@@ -74,6 +75,7 @@ export class SelectFields extends LitElement {
                     `;
                 })}
             </ul>
+            <slot></slot>
         `;
     }
 }
