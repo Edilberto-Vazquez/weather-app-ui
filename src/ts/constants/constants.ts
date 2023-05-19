@@ -9,7 +9,7 @@ export const LOCATION_OPTIONS = [
     },
 ];
 
-export const WEATHER_STATIONS_FIELDS = [
+export const WEATHER_STATION_FIELDS = [
     {
         value: "temp",
         title: "Temperatura",

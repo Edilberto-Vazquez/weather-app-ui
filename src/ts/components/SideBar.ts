@@ -44,9 +44,6 @@ export class SideBar extends LitElement {
     @property({ attribute: "collapse-side-bar", type: Boolean, reflect: true })
     declare collapseSideBar: boolean;
 
-    @property({ type: Function })
-    declare handleCollapseSideBar: ((e: Event) => void) | null;
-
     constructor() {
         super();
         this.collapseSideBar = false;

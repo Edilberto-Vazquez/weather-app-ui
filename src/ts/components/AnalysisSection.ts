@@ -15,11 +15,13 @@ export class AnalysisSection extends LitElement {
     static styles = css`
         :host {
             width: 100%;
-            height: 100%;
+            height: calc(100% - 64px);
             padding: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: grid;
+            align-items: flex-start;
+            grid-template-columns: repeat(auto-fit, minmax(272px, calc(50% - 24px)));
+            grid-auto-rows: min-content;
+            gap: 24px;
             position: fixed;
             left: 0px;
             z-index: 0;
@@ -40,6 +42,6 @@ export class AnalysisSection extends LitElement {
     `;
 
     render() {
-        return html` hola `;
+        return html` <slot></slot> `;
     }
 }

@@ -39,12 +39,22 @@ export class SelectLocation extends LitElement {
         }
     }
 
-    setLocation(e: Event) {
+    dispatchLocation(e: Event) {
         const selectElement = e.target as HTMLSelectElement;
         this.selected = {
             value: selectElement.value,
             title: selectElement.selectedOptions[0].text,
         };
+
+        const options = {
+            detail: {
+                location: this.selected,
+            },
+            bubbles: true,
+            composed: true,
+        };
+
+        this.dispatchEvent(new CustomEvent("getLocation", options));
     }
 
     render() {
@@ -54,7 +64,7 @@ export class SelectLocation extends LitElement {
         ];
 
         return html`
-            <select class="select-location" @change="${this.setLocation}">
+            <select class="select-location" @change="${this.dispatchLocation}">
                 ${options.map(({ value, title }) => {
                     return html`
                         <option
