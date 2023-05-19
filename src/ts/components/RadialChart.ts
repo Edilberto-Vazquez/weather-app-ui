@@ -1,25 +1,19 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import ApexCharts from "https://cdn.skypack.dev/apexcharts";
-import { EFM_CHART_NAMES, WEATHER_STATION_CHART_NAMES } from "../constants/constants";
 
 import "./LoadingAnimation";
 
-export enum StationType {
-    EFM,
-    Weather,
-}
-
-@customElement("line-chart")
-export class LineChart extends LitElement {
+@customElement("radial-chart")
+export class RadialChart extends LitElement {
     @property({ attribute: "chart-title", type: String })
     declare chartTitle: string;
 
-    @property({ attribute: "station-type", type: StationType })
-    declare stationType: StationType;
-
     @property({ attribute: true, type: Array<any> })
     declare series: any[];
+
+    @property({ attribute: true, type: Array<any> })
+    declare labels: any[];
 
     @property({ attribute: true, type: String })
     declare seriesUrl: string;
@@ -29,9 +23,8 @@ export class LineChart extends LitElement {
 
     constructor() {
         super();
-        this.chartTitle = "";
-        this.stationType = StationType.EFM;
         this.series = [];
+        this.labels = [];
         this.seriesUrl = "";
         this.loading = false;
     }
@@ -71,19 +64,8 @@ export class LineChart extends LitElement {
 
             const response = await fetch(this.seriesUrl);
             const data = await response.json();
-            const parsedSeriesNames = data.data.map((serie: any) => {
-                switch (this.stationType) {
-                    case StationType.EFM:
-                        serie.name = EFM_CHART_NAMES.get(serie.name);
-                        break;
-                    case StationType.Weather:
-                        serie.name = WEATHER_STATION_CHART_NAMES.get(serie.name);
-                        break;
-                    default:
-                        break;
-                }
-            });
-            this.series = data.data;
+            this.series = Object.values(data.data);
+            this.labels = Object.keys(data.data);
             this.createChart(mainContainer);
         } catch (error) {
             console.error("Error making the request:", error);
@@ -98,49 +80,66 @@ export class LineChart extends LitElement {
         const options = {
             series: this.series,
             chart: {
-                type: "area",
-                stacked: false,
-                height: 350,
-                zoom: {
-                    type: "x",
-                    enabled: true,
-                    autoScaleYaxis: true,
-                },
-                toolbar: {
-                    autoSelected: "zoom",
+                height: 390,
+                type: "radialBar",
+            },
+            plotOptions: {
+                radialBar: {
+                    offsetY: 0,
+                    startAngle: 0,
+                    endAngle: 270,
+                    hollow: {
+                        margin: 5,
+                        size: "30%",
+                        background: "transparent",
+                        image: undefined,
+                    },
+                    dataLabels: {
+                        name: {
+                            show: true,
+                        },
+                        value: {
+                            show: true,
+                        },
+                    },
                 },
             },
-            dataLabels: {
-                enabled: false,
-            },
-            markers: {
-                size: 0,
+            colors: ["#1ab7ea", "#0084ff", "#39539E", "#0077B5"],
+            labels: this.labels,
+            legend: {
+                show: true,
+                floating: true,
+                fontSize: "16px",
+                position: "left",
+                offsetX: 160,
+                offsetY: 15,
+                labels: {
+                    useSeriesColors: true,
+                },
+                markers: {
+                    size: 0,
+                },
+                formatter: function (seriesName: any, opts: any) {
+                    return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+                },
+                itemMargin: {
+                    vertical: 3,
+                },
             },
             title: {
                 text: this.chartTitle,
                 align: "left",
             },
-            fill: {
-                type: "gradient",
-                gradient: {
-                    shadeIntensity: 1,
-                    inverseColors: false,
-                    opacityFrom: 0.5,
-                    opacityTo: 0,
-                    stops: [0, 90, 100],
+            responsive: [
+                {
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            show: false,
+                        },
+                    },
                 },
-            },
-            yaxis: {
-                title: {
-                    text: "Valor",
-                },
-            },
-            xaxis: {
-                type: "datetime",
-            },
-            tooltip: {
-                shared: false,
-            },
+            ],
         };
 
         const container = document.createElement("div");

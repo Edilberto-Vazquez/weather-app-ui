@@ -7,8 +7,8 @@ import {
     EFM_FIELDS,
     BASE_URL,
 } from "../constants/constants";
-import { Location } from "../types/stations";
-import { Field } from "../types/columns";
+import { Location, Field } from "../types/types";
+import { StationType } from "../components/LineChart";
 
 // components
 import "../components/HeaderSection";
@@ -17,6 +17,7 @@ import "../components/SelectLocation";
 import "../components/AnalysisSection";
 import "../components/SelectFields";
 import "../components/LineChart";
+import "../components/RadialChart";
 
 @customElement("weather-app")
 export class WeatherApp extends LitElement {
@@ -32,24 +33,24 @@ export class WeatherApp extends LitElement {
     @property({ attribute: false, type: Array<Field> })
     declare efmFields: Field[];
 
-    @property({ attribute: false, type: Map })
-    declare urls: Map<string, string>;
+    @property({ attribute: false, type: String })
+    declare urlEfmLineChart: string;
 
     @property({ attribute: false, type: String })
-    declare url: string;
+    declare urlWeatherStationLineChart: string;
+
+    @property({ attribute: false, type: String })
+    declare urlRadialChart: string;
 
     constructor() {
         super();
         this.collapseState = true;
-        this.location = { value: "default", title: "Selecciona una locación" };
+        this.location = { value: "inaoe", title: "INAOE" };
         this.weatherStationFields = WEATHER_STATION_FIELDS;
         this.efmFields = EFM_FIELDS;
-        this.urls = new Map([
-            ["efmLineChart", ""],
-            ["weatherStationLineChart", ""],
-            ["radialChart", ""],
-        ]);
-        this.url = "";
+        this.urlEfmLineChart = "";
+        this.urlWeatherStationLineChart = "";
+        this.urlRadialChart = "";
     }
 
     static styles = [
@@ -78,6 +79,9 @@ export class WeatherApp extends LitElement {
             .query-button > button {
                 width: 124px;
                 height: 28px;
+                border: 1px solid var(--main-color-primary);
+                border-radius: 4px;
+                background: none;
             }
         `,
     ];
@@ -119,38 +123,57 @@ export class WeatherApp extends LitElement {
         return url.toString();
     }
 
-    handleClick() {
+    handleClickEfmLineChart() {
         if (this.location.value === "default") {
             return;
         }
+        this.urlEfmLineChart = this.createLineChartUrl(
+            this.location.value,
+            "EFMRecords",
+            this.efmFields.map((field) => field.value),
+            { startDate: "2019-01-01", endDate: "2019-05-01" }
+        );
+    }
 
-        this.urls = new Map<string, string>([
-            [
-                "efmLineChart",
-                this.createLineChartUrl(
-                    this.location.value,
-                    "EFMRecords",
-                    this.efmFields.map((field) => field.value),
-                    { startDate: "2019-01-01", endDate: "2019-05-01" }
-                ),
-            ],
-            [
-                "weatherStationLineChart",
-                this.createLineChartUrl(
-                    this.location.value,
-                    "WeatherRecords",
-                    this.weatherStationFields.map((field) => field.value),
-                    { startDate: "2019-01-01", endDate: "2019-05-01" }
-                ),
-            ],
-            [
-                "radialChart",
-                this.createRadialChartUrl(this.location.value, {
-                    startDate: "2019-01-01",
-                    endDate: "2019-05-01",
-                }),
-            ],
-        ]);
+    handleClickWeatherStationLineChart() {
+        if (this.location.value === "default") {
+            return;
+        }
+        this.urlWeatherStationLineChart = this.createLineChartUrl(
+            this.location.value,
+            "WeatherRecords",
+            this.weatherStationFields.map((field) => field.value),
+            { startDate: "2019-01-01", endDate: "2019-05-01" }
+        );
+    }
+
+    handleClickRadialChart() {
+        if (this.location.value === "default") {
+            return;
+        }
+        this.urlRadialChart = this.createRadialChartUrl(this.location.value, {
+            startDate: "2019-01-01",
+            endDate: "2019-05-01",
+        });
+    }
+
+    firstUpdated() {
+        this.urlEfmLineChart = this.createLineChartUrl(
+            this.location.value,
+            "EFMRecords",
+            this.efmFields.map((field) => field.value),
+            { startDate: "2019-01-01", endDate: "2019-05-01" }
+        );
+        this.urlWeatherStationLineChart = this.createLineChartUrl(
+            this.location.value,
+            "WeatherRecords",
+            this.weatherStationFields.map((field) => field.value),
+            { startDate: "2019-01-01", endDate: "2019-05-01" }
+        );
+        this.urlRadialChart = this.createRadialChartUrl(this.location.value, {
+            startDate: "2019-01-01",
+            endDate: "2019-05-01",
+        });
     }
 
     render() {
@@ -164,32 +187,46 @@ export class WeatherApp extends LitElement {
                     >
                         <select-location .options=${LOCATION_OPTIONS}></select-location>
                     </side-bar-item>
-                    <side-bar-item section-title="Campos">
-                        <select-fields
-                            fields-title="Estación meteorológica"
-                            .fields=${WEATHER_STATION_FIELDS}
-                            @getSelected=${this.handleWeatherStationFields}
-                        >
-                            <div class="query-button">
-                                <button @click=${this.handleClick}>Establecer</button>
-                            </div>
-                        </select-fields>
+                    <side-bar-item section-title="Graficas">
                         <select-fields
                             fields-title="Medidor campo eléctrico"
                             .fields=${EFM_FIELDS}
                             @getSelected=${this.handleEfmFields}
                         >
                             <div class="query-button">
-                                <button @click=${this.handleClick}>Establecer</button>
+                                <button @click=${this.handleClickEfmLineChart}>
+                                    Establecer
+                                </button>
+                            </div>
+                        </select-fields>
+                        <select-fields
+                            fields-title="Estación meteorológica"
+                            .fields=${WEATHER_STATION_FIELDS}
+                            @getSelected=${this.handleWeatherStationFields}
+                        >
+                            <div class="query-button">
+                                <button @click=${this.handleClickWeatherStationLineChart}>
+                                    Establecer
+                                </button>
                             </div>
                         </select-fields>
                     </side-bar-item>
                 </side-bar>
                 <analysis-section ?collapse-section="${this.collapseState}">
-                    <line-chart .seriesUrl=${this.urls.get("efmLineChart")}></line-chart>
                     <line-chart
-                        .seriesUrl=${this.urls.get("weatherStationLineChart")}
+                        chart-title="Medidor campo eléctrico"
+                        station-type=${StationType.EFM}
+                        .seriesUrl=${this.urlEfmLineChart}
                     ></line-chart>
+                    <line-chart
+                        chart-title="Estación meteorológica"
+                        station-type=${StationType.Weather}
+                        .seriesUrl=${this.urlWeatherStationLineChart}
+                    ></line-chart>
+                    <radial-chart
+                        chart-title="Número de rayos detectados por rango"
+                        .seriesUrl=${this.urlRadialChart}
+                    ></radial-chart>
                 </analysis-section>
             </div>
         `;

@@ -27,6 +27,7 @@ export class AnalysisSection extends LitElement {
             z-index: 0;
             transition: all 0.5s ease;
             background-color: whitesmoke;
+            overflow-y: scroll;
         }
 
         @media (min-width: 900px) {

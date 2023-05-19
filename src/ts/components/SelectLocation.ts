@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-import { Location } from "../types/stations";
+import { Location } from "../types/types";
 
 @customElement("select-location")
 export class SelectLocation extends LitElement {
@@ -58,14 +58,14 @@ export class SelectLocation extends LitElement {
     }
 
     render() {
-        const options: Location[] = [
-            { value: "default", title: "Selecciona una locación" },
-            ...this.options,
-        ];
+        // const options: Location[] = [
+        //     { value: "default", title: "Selecciona una locación" },
+        //     ...this.options,
+        // ];
 
         return html`
             <select class="select-location" @change="${this.dispatchLocation}">
-                ${options.map(({ value, title }) => {
+                ${this.options.map(({ value, title }) => {
                     return html`
                         <option
                             value="${value}"

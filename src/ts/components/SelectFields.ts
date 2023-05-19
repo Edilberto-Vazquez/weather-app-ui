@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Field } from "../types/columns";
+import { Field } from "../types/types";
 
 @customElement("select-fields")
 export class SelectFields extends LitElement {
