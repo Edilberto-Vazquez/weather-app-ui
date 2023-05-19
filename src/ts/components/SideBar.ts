@@ -60,6 +60,7 @@ export class SideBar extends LitElement {
             top: 64px;
             left: 0px;
             z-index: 1;
+            overflow-x: scroll;
             border-inline-end: 1px solid rgba(0, 0, 0, 0.12);
             background-color: white;
             transition: all 0.5s ease;
