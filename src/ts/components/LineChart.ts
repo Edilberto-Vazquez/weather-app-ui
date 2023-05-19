@@ -6,8 +6,8 @@ import { EFM_CHART_NAMES, WEATHER_STATION_CHART_NAMES } from "../constants/const
 import "./LoadingAnimation";
 
 export enum StationType {
-    EFM,
-    Weather,
+    EFM = "EFM",
+    Weather = "Weather",
 }
 
 @customElement("line-chart")
@@ -74,6 +74,7 @@ export class LineChart extends LitElement {
             const parsedSeriesNames = data.data.map((serie: any) => {
                 switch (this.stationType) {
                     case StationType.EFM:
+                        console.log(EFM_CHART_NAMES.get(serie.name));
                         serie.name = EFM_CHART_NAMES.get(serie.name);
                         break;
                     case StationType.Weather:
@@ -82,8 +83,10 @@ export class LineChart extends LitElement {
                     default:
                         break;
                 }
+                return serie;
             });
-            this.series = data.data;
+
+            this.series = parsedSeriesNames;
             this.createChart(mainContainer);
         } catch (error) {
             console.error("Error making the request:", error);
