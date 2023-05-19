@@ -6,6 +6,11 @@ import "../components/SideBar";
 import "../components/SelectLocation";
 import "../components/AnalysisSection";
 import "../components/SelectFields";
+import {
+    LOCATION_OPTIONS,
+    WEATHER_STATIONS_FIELDS,
+    EFM_FIELDS,
+} from "../constants/constants";
 
 @customElement("weather-app")
 export class WeatherApp extends LitElement {
@@ -49,16 +54,18 @@ export class WeatherApp extends LitElement {
             <div class="main-section">
                 <side-bar @collapse=${this.handleCollapse}>
                     <side-bar-item section-title="Locaciones">
-                        <select-location></select-location>
+                        <select-location .options=${LOCATION_OPTIONS}></select-location>
                     </side-bar-item>
                     <side-bar-item section-title="Campos">
                         <select-fields
                             fields-title="Estación meteorológica"
+                            .fields=${WEATHER_STATIONS_FIELDS}
                             @getSelected=${this.handleFields}
                         >
                         </select-fields>
                         <select-fields
-                            fields-title="EMedidor campo eléctrico"
+                            fields-title="Medidor campo eléctrico"
+                            .fields=${EFM_FIELDS}
                             @getSelected=${this.handleFields}
                         >
                         </select-fields>

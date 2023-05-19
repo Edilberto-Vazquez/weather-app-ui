@@ -13,10 +13,7 @@ export class SelectFields extends LitElement {
     constructor() {
         super();
         this.fieldsTitle = "";
-        this.fields = [
-            { value: "temp", title: "Temperatura", selected: false },
-            { value: "rain", title: "Lluvia", selected: false },
-        ];
+        this.fields = [];
     }
 
     static styles = css`
