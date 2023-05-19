@@ -74,7 +74,6 @@ export class LineChart extends LitElement {
             const parsedSeriesNames = data.data.map((serie: any) => {
                 switch (this.stationType) {
                     case StationType.EFM:
-                        console.log(EFM_CHART_NAMES.get(serie.name));
                         serie.name = EFM_CHART_NAMES.get(serie.name);
                         break;
                     case StationType.Weather:
