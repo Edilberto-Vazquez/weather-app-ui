@@ -80,11 +80,16 @@ export class RadialChart extends LitElement {
         const options = {
             series: this.series,
             chart: {
-                height: 390,
+                height: 400,
                 type: "radialBar",
             },
             plotOptions: {
                 radialBar: {
+                    track: {
+                        background: "#333",
+                        startAngle: 0,
+                        endAngle: 270,
+                    },
                     offsetY: 0,
                     startAngle: 0,
                     endAngle: 270,
@@ -104,7 +109,7 @@ export class RadialChart extends LitElement {
                     },
                 },
             },
-            colors: ["#1ab7ea", "#0084ff", "#39539E", "#0077B5"],
+            colors: ["#137b9d", "#1c92b3", "#66c8e8", "#a7d9e8"],
             labels: this.labels,
             legend: {
                 show: true,

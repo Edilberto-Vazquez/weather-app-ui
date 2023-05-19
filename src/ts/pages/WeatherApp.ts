@@ -69,6 +69,26 @@ export class WeatherApp extends LitElement {
                 padding: 0px;
             }
 
+            .date-picker {
+                width: 100%;
+                height: auto;
+                display: grid;
+                grid-auto-rows: min-content;
+                row-gap: 2px;
+                font-size: 1.4rem;
+            }
+
+            .date-picker > label {
+                height: 28px;
+            }
+
+            .date-picker > label > input {
+                height: 100%;
+                margin-inline-start: 4px;
+                border: 1px solid var(--main-color-primary);
+                border-radius: 4px;
+            }
+
             .query-button {
                 width: 100%;
                 height: 28px;
@@ -124,6 +144,7 @@ export class WeatherApp extends LitElement {
     }
 
     handleClickEfmLineChart() {
+        const { efmDates } = this.getDates();
         if (this.location.value === "default") {
             return;
         }
@@ -131,11 +152,12 @@ export class WeatherApp extends LitElement {
             this.location.value,
             "EFMRecords",
             this.efmFields.map((field) => field.value),
-            { startDate: "2019-01-01", endDate: "2019-05-01" }
+            { startDate: efmDates.starDate, endDate: efmDates.endDate }
         );
     }
 
     handleClickWeatherStationLineChart() {
+        const { wsDates } = this.getDates();
         if (this.location.value === "default") {
             return;
         }
@@ -143,36 +165,76 @@ export class WeatherApp extends LitElement {
             this.location.value,
             "WeatherRecords",
             this.weatherStationFields.map((field) => field.value),
-            { startDate: "2019-01-01", endDate: "2019-05-01" }
+            { startDate: wsDates.starDate, endDate: wsDates.endDate }
         );
     }
 
     handleClickRadialChart() {
+        const { ranDates } = this.getDates();
         if (this.location.value === "default") {
             return;
         }
         this.urlRadialChart = this.createRadialChartUrl(this.location.value, {
-            startDate: "2019-01-01",
-            endDate: "2019-05-01",
+            startDate: ranDates.starDate,
+            endDate: ranDates.endDate,
         });
     }
 
+    getDates() {
+        const efmStartDate = this.shadowRoot?.querySelector(
+            "#efm-start-date"
+        ) as HTMLInputElement;
+
+        const efmEndtDate = this.shadowRoot?.querySelector(
+            "#efm-end-date"
+        ) as HTMLInputElement;
+
+        const wsStartDate = this.shadowRoot?.querySelector(
+            "#ws-start-date"
+        ) as HTMLInputElement;
+
+        const wsEndtDate = this.shadowRoot?.querySelector(
+            "#ws-end-date"
+        ) as HTMLInputElement;
+
+        const ranStartDate = this.shadowRoot?.querySelector(
+            "#ran-start-date"
+        ) as HTMLInputElement;
+
+        const ranEndtDate = this.shadowRoot?.querySelector(
+            "#ran-end-date"
+        ) as HTMLInputElement;
+
+        return {
+            efmDates: { starDate: efmStartDate.value, endDate: efmEndtDate.value },
+            wsDates: { starDate: wsStartDate.value, endDate: wsEndtDate.value },
+            ranDates: { starDate: ranStartDate.value, endDate: ranEndtDate.value },
+        };
+    }
+
+    // concatDates(phrase: string, type: string) {
+    //     const dates = this.getDates();
+    //     return `${phrase} - ${dates[type].startDate} - ${dates[type].endDate}`;
+    // }
+
     firstUpdated() {
+        const { efmDates, wsDates, ranDates } = this.getDates();
+
         this.urlEfmLineChart = this.createLineChartUrl(
             this.location.value,
             "EFMRecords",
             this.efmFields.map((field) => field.value),
-            { startDate: "2019-01-01", endDate: "2019-05-01" }
+            { startDate: efmDates.starDate, endDate: efmDates.endDate }
         );
         this.urlWeatherStationLineChart = this.createLineChartUrl(
             this.location.value,
             "WeatherRecords",
             this.weatherStationFields.map((field) => field.value),
-            { startDate: "2019-01-01", endDate: "2019-05-01" }
+            { startDate: wsDates.starDate, endDate: wsDates.endDate }
         );
         this.urlRadialChart = this.createRadialChartUrl(this.location.value, {
-            startDate: "2019-01-01",
-            endDate: "2019-05-01",
+            startDate: ranDates.starDate,
+            endDate: ranDates.endDate,
         });
     }
 
@@ -193,6 +255,28 @@ export class WeatherApp extends LitElement {
                             .fields=${EFM_FIELDS}
                             @getSelected=${this.handleEfmFields}
                         >
+                            <div class="date-picker">
+                                <label for="efm-start-date">
+                                    Desde:
+                                    <input
+                                        type="date"
+                                        id="efm-start-date"
+                                        value="2019-01-01"
+                                        min="2016-01-01"
+                                        max="2019-12-31"
+                                    />
+                                </label>
+                                <label for="efm-end-date">
+                                    Hasta:
+                                    <input
+                                        type="date"
+                                        id="efm-end-date"
+                                        value="2019-12-31"
+                                        min="2016-01-01"
+                                        max="2019-12-31"
+                                    />
+                                </label>
+                            </div>
                             <div class="query-button">
                                 <button @click=${this.handleClickEfmLineChart}>
                                     Establecer
@@ -204,6 +288,57 @@ export class WeatherApp extends LitElement {
                             .fields=${WEATHER_STATION_FIELDS}
                             @getSelected=${this.handleWeatherStationFields}
                         >
+                            <div class="date-picker">
+                                <label for="ws-start-date">
+                                    Desde:
+                                    <input
+                                        type="date"
+                                        id="ws-start-date"
+                                        value="2019-01-01"
+                                        min="2016-01-01"
+                                        max="2019-12-31"
+                                    />
+                                </label>
+                                <label for="ws-end-date">
+                                    Hasta:
+                                    <input
+                                        type="date"
+                                        id="ws-end-date"
+                                        value="2019-12-31"
+                                        min="2016-01-01"
+                                        max="2019-12-31"
+                                    />
+                                </label>
+                            </div>
+                            <div class="query-button">
+                                <button @click=${this.handleClickWeatherStationLineChart}>
+                                    Establecer
+                                </button>
+                            </div>
+                        </select-fields>
+                        <select-fields fields-title="Rayos detectados por rango">
+                            <div class="date-picker">
+                                <label for="ran-start-date">
+                                    Desde:
+                                    <input
+                                        type="date"
+                                        id="ran-start-date"
+                                        value="2019-01-01"
+                                        min="2016-01-01"
+                                        max="2019-12-31"
+                                    />
+                                </label>
+                                <label for="ran-end-date">
+                                    Hasta:
+                                    <input
+                                        type="date"
+                                        id="ran-end-date"
+                                        value="2019-12-31"
+                                        min="2016-01-01"
+                                        max="2019-12-31"
+                                    />
+                                </label>
+                            </div>
                             <div class="query-button">
                                 <button @click=${this.handleClickWeatherStationLineChart}>
                                     Establecer
