@@ -1,23 +1,36 @@
 {
-    "name": "weather-app-ui",
-    "version": "1.0.0",
-    "private": true,
-    "description": "",
-    "main": "index.js",
-    "module": "index.js",
-    "scripts": {
-        "start:dev": "web-dev-server --node-resolve --open src/html/ --watch"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@types/node": "^20.1.0",
-        "@web/dev-server": "^0.2.1",
-        "@web/dev-server-esbuild": "^0.4.1",
-        "tslib": "^2.5.0",
-        "typescript": "^5.0.4"
-    },
-    "dependencies": {
-        "lit": "^2.7.4"
-    }
+  "name": "weather-app-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "module": "index.js",
+  "type": "module",
+  "scripts": {
+    "start:dev": "web-dev-server --node-resolve --open src/html/ --watch",
+    "build": "rollup -c rollup.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@open-wc/building-rollup": "^3.0.1",
+    "@rollup/plugin-node-resolve": "15.1.0",
+    "@rollup/plugin-terser": "0.4.3",
+    "@types/node": "20.1.0",
+    "@web/dev-server": "0.2.1",
+    "@web/dev-server-esbuild": "0.4.1",
+    "@web/rollup-plugin-copy": "0.4.0",
+    "@web/rollup-plugin-html": "2.0.0",
+    "deepmerge": "^4.3.1",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.27.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-summary": "2.0.0",
+    "tslib": "2.5.0",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "apexcharts": "3.41.0",
+    "lit": "2.7.4"
+  }
 }

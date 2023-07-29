@@ -153,7 +153,7 @@ export class WeatherApp extends LitElement {
 
   render() {
     return html`
-      <header-section header-title="Análisis del tiempo"></header-section>
+      <header-section header-title="Estados fenológicos"></header-section>
       <div class="main-section">
         <side-bar @collapse=${this.handleCollapse}>
           <side-bar-item
@@ -176,7 +176,7 @@ export class WeatherApp extends LitElement {
           </side-bar-item>
           <side-bar-item section-title="Graficas">
             <select-fields
-              fields-title="Estación meteorológica"
+              fields-title="Variables"
               .fields=${WEATHER_STATION_FIELDS}
               @getSelected=${this.handleWeatherStationFields}
             >
@@ -190,11 +190,15 @@ export class WeatherApp extends LitElement {
         </side-bar>
         <analysis-section ?collapse-section="${this.collapseState}">
           <line-chart
-            chart-title="Estación meteorológica"
+            chart-title="Datos Agroclimaticos copernicus"
             station-type=${StationType.Weather}
             .seriesUrl=${this.urlWeatherStationLineChart}
             .startDate=${this.startDate}
           ></line-chart>
+          <div class="map-section">
+            <h2>Region de México</h2>
+            <img src="../../assets/imgs/mapa.png" width="100%" height="500px" />
+          </div>
         </analysis-section>
       </div>
     `;
